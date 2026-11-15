@@ -1,0 +1,5 @@
+schema_version: "1.1"
+name: store-landing-page
+expected_outcome: |
+  A single-file index.html brand homepage: white / light grey / black backgrounds alternating with adjacent sections in different colours, system fonts, a blue pill primary button,
+  a clear signature visual in the hero, restrained elements, no horizontal scrolling on mobile, and reduced-motion handling.
