@@ -1,0 +1,15 @@
+{
+  "name": "suzhe-ui",
+  "description": "Suzhe UI: the web design method behind suzhe.ai, packaged as a Claude Skill.",
+  "owner": {
+    "name": "Suzhe AI",
+    "url": "https://github.com/suzhe-ai"
+  },
+  "plugins": [
+    {
+      "name": "suzhe-ui",
+      "source": "./",
+      "description": "Apple-grade restraint plus one signature visual per page. Use for any web page, landing page, store, login, checkout, docs or dashboard work."
+    }
+  ]
+}

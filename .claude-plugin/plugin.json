@@ -1,0 +1,16 @@
+{
+  "name": "suzhe-ui",
+  "version": "1.0.0",
+  "description": "Suzhe UI: the web design method behind suzhe.ai. Restrained skeleton, one signature visual per page, fewer elements.",
+  "author": {
+    "name": "Suzhe AI",
+    "url": "https://suzhe.ai"
+  },
+  "homepage": "https://github.com/suzhe-ai/suzhe-ui",
+  "repository": "https://github.com/suzhe-ai/suzhe-ui",
+  "license": "Apache-2.0",
+  "keywords": ["ui", "design", "design-system", "frontend", "web", "landing-page", "skill"],
+  "experimental": {
+    "evals": "skills/suzhe-ui/evals"
+  }
+}
