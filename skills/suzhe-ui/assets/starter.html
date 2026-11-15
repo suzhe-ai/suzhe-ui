@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>Starter · Suzhe UI</title>
+<!-- Prevents a white flash on the first frame: the right background is in place before the CSS has loaded -->
+<style>html{background:#f5f5f7}</style>
+<!-- Copy references/tokens.css into your project and change this to its actual path -->
+<link rel="stylesheet" href="../references/tokens.css">
+<style>
+  /* ---- Page-specific styles only; shared styles live in tokens.css ---- */
+  .gnav .brand{display:flex;align-items:center;gap:8px;color:#f5f5f7;font:600 14px/1 var(--f-text);margin-right:auto}
+  .brand svg{width:20px;height:20px}
+  .gnav-links{display:flex;gap:0}
+  .gnav-links a{padding:0 12px}
+  .gnav .btn{min-height:28px;padding:4px 12px;font-size:12px}
+  @media (max-width:734px){ .gnav-links{display:none} }
+
+  /* Hero: black + two very faint colour-temperature glows; the signature visual is a floating "subscription card" */
+  .hero{--head:120px;min-height:max(440px,calc(100vh - var(--head)));min-height:max(440px,calc(100svh - var(--head)));
+    display:flex;flex-direction:column;align-items:center;text-align:center;padding:calc(var(--nav-h) + 64px) 0 56px;
+    background:radial-gradient(56% 60% at 12% 0%,rgba(46,211,166,.075),transparent 70%),
+               radial-gradient(48% 56% at 92% 6%,rgba(90,125,255,.085),transparent 70%),#000}
+  .hero .h-hero{animation:rise 1.1s var(--spring) both}
+  .hero .sub{margin-top:14px;animation:rise 1.1s var(--spring) .05s both}
+  .hero-cta{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:28px;animation:rise 1.1s var(--spring) .1s both}
+  .stage{flex:1 1 0;display:grid;place-items:center;width:100%;margin-top:48px;perspective:1200px;animation:fade 1.2s var(--ease) .15s both}
+  .pass{position:relative;width:min(420px,82vw);aspect-ratio:1.586;border-radius:22px;padding:26px 28px;text-align:left;color:#f5f5f7;
+    background:linear-gradient(135deg,#2a2a2d 0%,#141416 55%,#1f1f22 100%);
+    box-shadow:0 40px 80px rgba(0,0,0,.6),inset 0 0 0 .5px rgba(255,255,255,.14);transform:rotateX(8deg) rotateY(-10deg);
+    transition:transform .8s var(--spring)}
+  .pass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px)} /* brushed texture */
+  .pass::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
+    background:linear-gradient(120deg,rgba(120,200,255,.5),rgba(255,255,255,.05) 40%,rgba(180,140,255,.45));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude} /* iridescent edge */
+  .stage:hover .pass{transform:rotateX(2deg) rotateY(-3deg)}
+  .pass small{display:block;font:500 11px/1 var(--f-mono);letter-spacing:.12em;color:var(--d-ink-3)}
+  .pass strong{display:block;margin-top:10px;font:600 26px/1.1 var(--f-display);letter-spacing:-.01em}
+  .pass .row{position:absolute;left:28px;right:28px;bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;font:400 13px/1.3 var(--f-text);color:var(--d-ink-2)}
+  .pass .row b{font:600 20px/1 var(--f-display);color:#f5f5f7}
+
+  /* Plan cards */
+  .plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+  .plan{display:flex;flex-direction:column;padding:30px 24px 24px}
+  .plan .h-card{font-size:26px;line-height:1.12;margin-top:4px}
+  .plan .tag{margin:8px 0 22px;font:400 14px/1.43 var(--f-text);color:var(--ink-2)}
+  .price{margin:0;font:600 28px/1 var(--f-display);letter-spacing:-.01em}
+  .price span{font:400 14px var(--f-text);color:var(--ink-2);letter-spacing:0}
+  .pts{list-style:none;margin:22px 0 26px;padding:18px 0 0;border-top:1px solid var(--line-2);display:grid;gap:10px;font:400 14px/1.43 var(--f-text)}
+  .pts li{display:grid;grid-template-columns:16px minmax(0,1fr);gap:10px;align-items:start}
+  .pts li::before{content:"";width:16px;height:16px;margin-top:2px;border-radius:50%;background:#1d1d1f url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.2 2.2 4.8-4.8' fill='none' stroke='%23fff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
+  .plan .btn{margin-top:auto;align-self:flex-start}
+  @media (max-width:1068px){ .plans{grid-template-columns:repeat(2,minmax(0,1fr))} }
+  @media (max-width:734px){
+    .plans{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;margin:0 calc(-1*var(--gut));padding:4px var(--gut) 24px;scrollbar-width:none}
+    .plans::-webkit-scrollbar{display:none}
+    .plan{flex:0 0 min(82vw,320px);scroll-snap-align:center}
+  }
+
+  /* Promo banner */
+  .promo{position:relative;text-align:center;padding:132px 0 136px}
+  .promo::before{content:"";position:absolute;z-index:-1;left:50%;bottom:-40%;width:1100px;height:700px;transform:translateX(-50%);
+    background:radial-gradient(closest-side,rgba(64,140,255,.28),transparent)}
+  .promo .sub{max-width:560px;margin:16px auto 30px}
+  @media (max-width:734px){ .promo{padding:92px 0 96px} }
+
+  /* Reason cards */
+  .why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+  .why .card{display:flex;flex-direction:column;min-height:260px;padding:28px}
+  .why svg{width:40px;height:40px;fill:none;stroke:var(--ink);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+  .why .card>div{margin-top:auto}      /* push the title and description to the bottom of the card, leaving breathing room above */
+  .why .h-card{margin:0 0 8px}
+  .why p{margin:0;font:400 14px/1.5 var(--f-text);color:var(--ink-2)}
+  @media (max-width:1068px){ .why{grid-template-columns:repeat(2,minmax(0,1fr))} }
+  @media (max-width:734px){ .why{grid-template-columns:1fr} .why .card{min-height:0;flex-direction:row;gap:16px;align-items:flex-start} .why .card>div{margin-top:0} .why .h-card{margin:0 0 6px} }
+
+  /* Footer */
+  .foot{padding:22px 0 34px;font:400 12px/1.4 var(--f-text);color:var(--ink-2)}
+  .foot hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+  .foot-cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+  .foot-cols b{display:block;margin-bottom:8px;color:var(--ink);font-weight:600}
+  .foot-cols a{display:block;margin:6px 0;color:var(--ink-4)}
+  @media (max-width:734px){ .foot-cols{grid-template-columns:repeat(2,minmax(0,1fr))} }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<nav class="gnav" aria-label="Main">
+  <div class="gnav-in">
+    <a class="brand" href="#"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 10.5l2.6 2.6L14 7.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Example</a>
+    <div class="gnav-links"><a href="#plans">Plans</a><a href="#why">Why us</a><a href="#">Help</a></div>
+    <a class="btn btn-gray" href="#">Sign in</a>
+  </div>
+</nav>
+
+<main id="main">
+  <!-- Black: hero -->
+  <section class="hero sec-black glow-host">
+    <div class="wrap">
+      <h1 class="h-hero">One card.<br>Every AI.</h1>
+      <p class="sub">One supporting line, two lines at most.</p>
+      <div class="hero-cta"><a class="btn btn-lg btn-primary" href="#plans">See plans</a><a class="tlink" href="#why">Learn more</a></div>
+    </div>
+    <div class="stage" aria-hidden="true">
+      <div class="pass"><small>MEMBER PASS</small><strong>Example Member</strong><div class="row"><span>Valid thru 2027.12</span><b class="num">Pro</b></div></div>
+    </div>
+  </section>
+
+  <!-- Grey: plans -->
+  <section class="sec sec-gray" id="plans">
+    <div class="wrap">
+      <header class="sec-head rv">
+        <p class="eyebrow">Subscriptions</p>
+        <h2 class="h-sec">Choose the plan that fits. <span class="t-soft">Upgrade anytime, prorated by the day.</span></h2>
+      </header>
+      <div class="plans">
+        <article class="card plan rv"><p class="eyebrow">Starter</p><h3 class="h-card">Monthly</h3><p class="tag">Try it for a month.</p><p class="price num">$9<span> /mo</span></p><ul class="pts"><li>All core models</li><li>Daily quota refreshes automatically</li></ul><a class="btn btn-primary" href="#">Choose Monthly</a></article>
+        <article class="card plan rv" style="transition-delay:70ms"><p class="eyebrow">Popular</p><h3 class="h-card">Quarterly</h3><p class="tag">Most people pick this one.</p><p class="price num">$24<span> /qtr</span></p><ul class="pts"><li>All core models</li><li>Priority access at peak times</li></ul><a class="btn btn-primary" href="#">Choose Quarterly</a></article>
+        <article class="card plan rv" style="transition-delay:140ms"><p class="eyebrow">Best value</p><h3 class="h-card">Annual</h3><p class="tag">Pay once a year.</p><p class="price num">$79<span> /yr</span></p><ul class="pts"><li>Every model, including new releases</li><li>Dedicated support</li></ul><a class="btn btn-primary" href="#">Choose Annual</a></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Black: promo banner -->
+  <section class="sec-black glow-host promo">
+    <div class="wrap rv">
+      <p class="eyebrow">Teams</p>
+      <h2 class="h-promo">One team. One bill.</h2>
+      <p class="sub">One sentence on what it brings your team.</p>
+      <a class="btn btn-lg btn-ghost-dark" href="#">Contact us</a>
+    </div>
+  </section>
+
+  <!-- White: reasons -->
+  <section class="sec sec-white" id="why">
+    <div class="wrap">
+      <header class="sec-head rv"><h2 class="h-sec">Why choose us. <span class="t-soft">Three things, done right.</span></h2></header>
+      <div class="why">
+        <article class="card rv"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5l12 5v9c0 8-5 13-12 16C13 32 8 27 8 19v-9z"/><path d="M15 20l4 4 7-8"/></svg><div><h3 class="h-card">Reliable</h3><p>Say it in one sentence.</p></div></article>
+        <article class="card rv" style="transition-delay:70ms"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"/><path d="M20 12v8l5 4"/></svg><div><h3 class="h-card">Instant delivery</h3><p>Say it in one sentence.</p></div></article>
+        <article class="card rv" style="transition-delay:140ms"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 28c4-10 20-10 24 0"/><circle cx="20" cy="14" r="6"/></svg><div><h3 class="h-card">Real human support</h3><p>Say it in one sentence.</p></div></article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Grey: footer -->
+<footer class="foot sec-gray">
+  <div class="wrap">
+    <p>Final prices are shown at checkout.</p>
+    <hr>
+    <div class="foot-cols">
+      <div><b>Product</b><a href="#">Plans</a><a href="#">Teams</a></div>
+      <div><b>Help</b><a href="#">Guides</a><a href="#">Contact us</a></div>
+      <div><b>Account</b><a href="#">Sign in</a><a href="#">Orders</a></div>
+      <div><b>About</b><a href="#">Terms</a><a href="#">Privacy</a></div>
+    </div>
+    <hr>
+    <p>© 2026 Example</p>
+  </div>
+</footer>
+
+<div class="toast" role="status" aria-live="polite"></div>
+
+<script>
+  // Scroll-in: each element triggers once; with reduced motion or no IntersectionObserver support, show everything immediately
+  (function () {
+    var els = document.querySelectorAll('.rv');
+    if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      els.forEach(function (e) { e.classList.add('in'); }); return;
+    }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+    els.forEach(function (e) { io.observe(e); });
+  })();
+</script>
+</body>
+</html>
