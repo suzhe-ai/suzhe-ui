@@ -1,0 +1,5 @@
+schema_version: "1.1"
+name: login-page-premium
+expected_outcome: |
+  A single-file login.html in the editorial register (warm paper or warm black, serif display heading, ink primary button) with a dedicated signature visual tied to its sign-in purpose (not a centred white card), and a form that advances in steps or at least has only one primary button;
+  no error or validation messages on load, input font size of at least 16px on mobile, and no horizontal scrolling.
