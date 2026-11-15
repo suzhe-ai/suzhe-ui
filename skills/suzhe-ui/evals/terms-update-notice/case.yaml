@@ -1,0 +1,5 @@
+schema_version: "1.1"
+name: terms-update-notice
+expected_outcome: |
+  A single-file notice.html formal notice page: document-style typography (solid background, 14-16px body text, line height of about 1.75 or more, hairline tables or lists),
+  no showy elements such as motion backgrounds, glass effects or big gradient numbers, light and dark themes, and no horizontal scrolling on mobile.
